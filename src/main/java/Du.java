@@ -1,5 +1,4 @@
 package main.java;
-import java.io.IOException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class du {
+public class Du {
 
     @Option(name = "-h", usage = "Human view")
     private boolean humanSize;
@@ -25,7 +24,7 @@ public class du {
 
 
     public static void main(String[] args) {
-        new du().launch(args);
+        new Du().launch(args);
     }
 
     private void launch(String[] args) {

@@ -32,26 +32,30 @@ public class FileParameters {
 
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+            double size;
             for (String element : files) {
+
                 File file = new File(element);
 
-                if (!file.exists()) throw new IllegalArgumentException();
-
-                if (file.isDirectory()) {
-                    double sizeDirect = FileUtils.sizeOfDirectory(new File(element));
-                    if (c) sum += sizeDirect;
-                    sizeDirect = humanView(sizeDirect, hu);
-                    outputStreamWriter.write("Size of directory " + element + " " +
-                            String.format("%.3f",sizeDirect) + " " + sizeS[flag] + '\n');
-                } else {
-                    double res = file.length();
-                    if (c) sum += res;
-                    res = humanView(res, hu);
-                    outputStreamWriter.write("Size of file " + file + " " +
-                            String.format("%.3f",res)+ " " + sizeS[flag] + "\n");
+                if (!file.exists()) {
+                    System.err.println("invalid file name/path or it doesn't exist");
+                    return;
                 }
+
+                if (file.isDirectory()) size = FileUtils.sizeOfDirectory(file);
+                else size = file.length();
+
+                if (c) sum += size;
+
+                size = humanView(size, hu);
+
+                outputStreamWriter.write("Size of " + element + " " +
+                        String.format("%.3f", size) + " " + sizeS[flag] + '\n');
+
             }
-            if (c) outputStreamWriter.write("Sum of all " +   String.format("%.3f",humanView(sum, hu)) + " " + sizeS[flag]);
+            size = humanView(sum, hu);
+            if (c) outputStreamWriter.write("Sum of all " + String.format("%.3f", size) + " " + sizeS[flag]);
+
             outputStreamWriter.close();
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -60,12 +64,10 @@ public class FileParameters {
 
     public double humanView(double len, double system) {
         flag = 0;
-        if (!h) {
-            flag = 1;
-            return len / system;
-        } else do {
+        do {
             len /= system;
             flag++;
+            if (!h) break;
         } while (len > system);
         return len;
     }
