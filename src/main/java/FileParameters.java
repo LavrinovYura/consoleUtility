@@ -17,7 +17,7 @@ public class FileParameters {
     private final List<String> files;
     private double sum;
     private final String[] sizeS = {"B", "KB", "MB", "GB"};
-    List<String> result = new ArrayList<>();
+    private final List<String> result = new ArrayList<>();
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;
@@ -53,7 +53,6 @@ public class FileParameters {
             System.err.println(e.getMessage());
         }
     }
-
 
     public void humanView(double len, double system, String name) {
         if (c) sum += len;
