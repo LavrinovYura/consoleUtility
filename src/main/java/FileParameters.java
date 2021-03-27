@@ -15,7 +15,9 @@ public class FileParameters {
     private final boolean c;
     private final boolean si;
     private final List<String> files;
-
+    private double sum;
+    private final String[] sizeS = {"B", "KB", "MB", "GB"};
+    List<String> result = new ArrayList<>();
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;
@@ -26,12 +28,8 @@ public class FileParameters {
 
     public void sizeOfFiles(OutputStream outputStream) {
 
-        List<String> result = new ArrayList<>();
         double hu = si ? 1000 : 1024;
         double size;
-        Pair<Double, String> pair;
-        double sum = 0;
-
         for (String element : files) {
 
             File file = new File(element);
@@ -40,20 +38,12 @@ public class FileParameters {
                 System.err.println("invalid file name/path or it doesn't exist");
                 return;
             }
-
             if (file.isDirectory()) size = FileUtils.sizeOfDirectory(file);
             else size = file.length();
 
-            if (c) sum += size;
-
-            pair = humanView(size, hu);
-
-            result.add("Size of " + element + " " + String.format("%.3f", pair.getFirst())
-                    + " " + pair.getSecond() + '\n');
+            humanView(size, hu, element);
         }
-        pair = humanView(sum, hu);
-        if (c) result.add("Sum of all " + String.format("%.3f", pair.getFirst())
-                + " " + pair.getSecond());
+       if(c) humanView(sum, hu,"");
 
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
             for (String element : result) {
@@ -65,14 +55,18 @@ public class FileParameters {
     }
 
 
-    public Pair<Double, String> humanView(double len, double system) {
-        String[] sizeS = {"B", "KB", "MB", "GB"};
+    public void humanView(double len, double system, String name) {
+        if (c) sum += len;
         int flag = 0;
         do {
             len /= system;
             flag++;
             if (!h) break;
         } while (len > system);
-        return new Pair<>(len, sizeS[flag]);
+
+       if (!name.equals("")) result.add("Size of " + name + " " + String.format("%.3f",len)
+                + " " + sizeS[flag] + '\n');
+       else   result.add("Sum of all " + String.format("%.3f", len)
+               + " " + sizeS[flag]);
     }
 }
