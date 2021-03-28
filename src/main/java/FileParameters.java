@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
@@ -17,7 +19,7 @@ public class FileParameters {
     private final List<String> files;
     private double sum;
     private final String[] sizeS = {"B", "KB", "MB", "GB"};
-    private final List<String> result = new ArrayList<>();
+    private final Map<String, Pair<Double, String>> result = new LinkedHashMap<>();
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;
@@ -43,11 +45,12 @@ public class FileParameters {
 
             humanView(size, hu, element);
         }
-       if(c) humanView(sum, hu,"");
+        if (c) humanView(sum, hu, "");
 
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
-            for (String element : result) {
-                outputStreamWriter.write(element);
+            for (Map.Entry<String, Pair<Double, String>> entry : result.entrySet()) {
+                outputStreamWriter.write(entry.getKey() + " " + String.format("%.3f", entry.getValue().getFirst()) + " "
+                        + entry.getValue().getSecond() + "\n");
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -63,9 +66,7 @@ public class FileParameters {
             if (!h) break;
         } while (len > system);
 
-       if (!name.equals("")) result.add("Size of " + name + " " + String.format("%.3f",len)
-                + " " + sizeS[flag] + '\n');
-       else   result.add("Sum of all " + String.format("%.3f", len)
-               + " " + sizeS[flag]);
+        if (!name.equals("")) result.put("Size of " + name, new Pair<>(len, sizeS[flag]));
+        else result.put("Sum of all " + name, new Pair<>(len, sizeS[flag]));
     }
 }

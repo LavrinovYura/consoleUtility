@@ -20,7 +20,7 @@ public class Du {
     private boolean basement;
 
     @Argument(required = true, usage = "Input file name")
-    private  List<String> inputFileName = new ArrayList<>();
+    private final List<String> inputFileName = new ArrayList<>();
 
 
     public static void main(String[] args) {
