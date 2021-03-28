@@ -67,6 +67,6 @@ public class FileParameters {
         } while (len > system);
 
         if (!name.equals("")) result.put("Size of " + name, new Pair<>(len, sizeS[flag]));
-        else result.put("Sum of all " + name, new Pair<>(len, sizeS[flag]));
+        else result.put("Sum of all" + name, new Pair<>(len, sizeS[flag]));
     }
 }

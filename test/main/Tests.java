@@ -23,7 +23,7 @@ public class Tests {
         String expected = "Size of files\\car 215,682 KB\n" +
                 "Size of files\\direct 7,583 MB\n" +
                 "Size of files\\direct\\papka 6,529 MB\n" +
-                "Sum of all 14,323 MB";
+                "Sum of all 14,323 MB\n";
         assertEquals(expected, actual);
     }
     @Test
@@ -35,7 +35,7 @@ public class Tests {
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7764,567 KB\n" +
                 "Size of files\\direct\\papka 6686,131 KB\n" +
-                "Sum of all 14450,699 KB";
+                "Sum of all 14450,699 KB\n";
         assertEquals(expected, actual);
     }
     @Test
