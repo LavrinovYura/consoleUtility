@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ public class FileParameters {
     private double sum;
     private final String[] sizeS = {"B", "KB", "MB", "GB"};
     private final Map<String, Pair<Double, String>> result = new LinkedHashMap<>();
+    private final Map<String, Double> preResult = new LinkedHashMap<>();
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;
@@ -29,8 +29,6 @@ public class FileParameters {
     }
 
     public void sizeOfFiles(OutputStream outputStream) {
-
-        double hu = si ? 1000 : 1024;
         double size;
         for (String element : files) {
 
@@ -43,30 +41,39 @@ public class FileParameters {
             if (file.isDirectory()) size = FileUtils.sizeOfDirectory(file);
             else size = file.length();
 
-            humanView(size, hu, element);
+            if (c) sum += size;
+
+            preResult.put(element, size);
         }
-        if (c) humanView(sum, hu, "");
+        if (c) preResult.put("sum", sum);
+        humanView();
 
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
+            int counter = 1;
             for (Map.Entry<String, Pair<Double, String>> entry : result.entrySet()) {
-                outputStreamWriter.write(entry.getKey() + " " + String.format("%.3f", entry.getValue().getFirst()) + " "
-                        + entry.getValue().getSecond() + "\n");
+                if (result.size() != counter || !c) outputStreamWriter.write("Size of " + entry.getKey() + " "
+                        + String.format("%.3f", entry.getValue().getFirst()) + " " + entry.getValue().getSecond() + "\n");
+                else outputStreamWriter.write("Sum of all " + String.format("%.3f", entry.getValue().getFirst())
+                        + " " + entry.getValue().getSecond());
+                counter++;
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public void humanView(double len, double system, String name) {
-        if (c) sum += len;
-        int flag = 0;
-        do {
-            len /= system;
-            flag++;
-            if (!h) break;
-        } while (len > system);
+    public void humanView() {
+        double hu = si ? 1000 : 1024;
+        for (Map.Entry<String, Double> entry : preResult.entrySet()) {
+            int flag = 0;
+            double changedSize = entry.getValue();
+            do {
+                changedSize /= hu;
+                flag++;
+                if (!h) break;
+            } while (changedSize > hu);
 
-        if (!name.equals("")) result.put("Size of " + name, new Pair<>(len, sizeS[flag]));
-        else result.put("Sum of all" + name, new Pair<>(len, sizeS[flag]));
+            result.put(entry.getKey(), new Pair<>(changedSize, sizeS[flag]));
+        }
     }
 }
