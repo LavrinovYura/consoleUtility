@@ -37,7 +37,7 @@ public class Du {
             return;
         }
 
-        FileParameters fileParameters = new FileParameters(humanSize, allSize, basement, inputFileName);
+        FileParameters fileParameters = new FileParameters(humanSize, allSize, basement);
         Map<String, Double> preResult = fileParameters.sizeOfFiles(inputFileName);
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
         fileParameters.outputFile(System.out, result);

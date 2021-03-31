@@ -20,7 +20,7 @@ public class Tests {
     @Test
     public void firstTest() {
         List<String> filesPath = Arrays.asList("files\\car", "files\\direct", "files\\direct\\papka");
-        FileParameters fileParameters = new FileParameters(true, false, false, filesPath);
+        FileParameters fileParameters = new FileParameters(true, false, false);
         Map<String, Double> preResult = fileParameters.sizeOfFiles(filesPath);
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
         fileParameters.outputFile(stream, result);
@@ -34,7 +34,7 @@ public class Tests {
     @Test
     public void secondTest() {
         List<String> filesPath = Arrays.asList("files\\fd", "files\\direct", "files\\direct\\papka");
-        FileParameters fileParameters = new FileParameters(true, false, false, filesPath);
+        FileParameters fileParameters = new FileParameters(true, false, false);
         Map<String, Double> preResult = fileParameters.sizeOfFiles(filesPath);
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
         fileParameters.outputFile(stream, result);
@@ -48,7 +48,7 @@ public class Tests {
     @Test
     public void thirdTest() {
         List<String> filesPath = Arrays.asList("files\\fd", "files\\direct", "files\\direct\\papka");
-        FileParameters fileParameters = new FileParameters(false, false, false, filesPath);
+        FileParameters fileParameters = new FileParameters(false, false, false);
         Map<String, Double> preResult = fileParameters.sizeOfFiles(filesPath);
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
         fileParameters.outputFile(stream, result);
@@ -62,7 +62,7 @@ public class Tests {
     @Test
     public void fourthTest() {
         List<String> filesPath = Arrays.asList("files\\fd", "files\\direct", "files\\direct\\papka");
-        FileParameters fileParameters = new FileParameters(false, true, true,filesPath);
+        FileParameters fileParameters = new FileParameters(false, true, true);
         Map<String, Double> preResult = fileParameters.sizeOfFiles(filesPath);
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
         fileParameters.outputFile(stream, result);

@@ -1,5 +1,4 @@
 package project;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,7 +17,7 @@ public class FileParameters {
     private double sum;
     private static final String[] sizeS = {"B", "KB", "MB", "GB"};
 
-    public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
+    public FileParameters(boolean h, boolean c, boolean si) {
         this.h = h;
         this.c = c;
         this.si = si;
