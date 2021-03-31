@@ -15,19 +15,17 @@ public class FileParameters {
     private final boolean h;
     private final boolean c;
     private final boolean si;
-    private final List<String> files;
     private double sum;
-    private final String[] sizeS = {"B", "KB", "MB", "GB"};
+    private static final String[] sizeS = {"B", "KB", "MB", "GB"};
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;
         this.c = c;
         this.si = si;
-        this.files = files;
     }
 
-    public Map<String, Double> sizeOfFiles() {
-        LinkedHashMap<String, Double> preSizes = new LinkedHashMap<>();
+    public Map<String, Double> sizeOfFiles(List<String> files) {
+        Map<String, Double> preSizes = new LinkedHashMap<>();
         double size;
         for (String element : files) {
 
@@ -41,7 +39,7 @@ public class FileParameters {
 
             if (c) sum += size;
 
-            preSizes.put(element, size);
+            if (!c) preSizes.put(element, size);
         }
         if (c) preSizes.put("sum", sum);
         return preSizes;
@@ -65,13 +63,11 @@ public class FileParameters {
 
     public void outputFile(OutputStream outputStream, Map<String, Pair<Double, String>> finalResult) {
         try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
-            int counter = 1;
             for (Map.Entry<String, Pair<Double, String>> entry : finalResult.entrySet()) {
-                if (finalResult.size() != counter || !c) outputStreamWriter.write("Size of " + entry.getKey() + " "
+                if (!c) outputStreamWriter.write("Size of " + entry.getKey() + " "
                         + String.format("%.3f", entry.getValue().getFirst()) + " " + entry.getValue().getSecond() + "\n");
                 else outputStreamWriter.write("Sum of all " + String.format("%.3f", entry.getValue().getFirst())
                         + " " + entry.getValue().getSecond());
-                counter++;
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
