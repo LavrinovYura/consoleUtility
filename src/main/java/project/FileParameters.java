@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 
 public class FileParameters {
@@ -43,11 +44,11 @@ public class FileParameters {
             preSizes.put(element, size);
         }
         if (c) preSizes.put("sum", sum);
-        return  preSizes;
+        return preSizes;
     }
 
-    public Map<String, Pair<Double, String>> humanView( Map<String, Double> preResult) {
-        Map<String, Pair<Double, String>> humanResult = new LinkedHashMap<>() ;
+    public Map<String, Pair<Double, String>> humanView(Map<String, Double> preResult) {
+        Map<String, Pair<Double, String>> humanResult = new LinkedHashMap<>();
         double hu = si ? 1000 : 1024;
         for (Map.Entry<String, Double> entry : preResult.entrySet()) {
             int flag = 0;

@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Tests {
     ByteArrayOutputStream stream;
+
     @BeforeEach
     public void initStream() {
         stream = new ByteArrayOutputStream();
@@ -21,7 +22,7 @@ public class Tests {
                 List.of("files\\car", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
-        fileParameters.outputFile(stream,result);
+        fileParameters.outputFile(stream, result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\car 215,682 KB\n" +
                 "Size of files\\direct 7,583 MB\n" +
@@ -35,8 +36,8 @@ public class Tests {
         FileParameters fileParameters = new FileParameters(false, true, false,
                 List.of("files\\fd", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
-        Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(stream,result);
+        Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
+        fileParameters.outputFile(stream, result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7764,567 KB\n" +
@@ -44,26 +45,28 @@ public class Tests {
                 "Sum of all 14450,699 KB";
         assertEquals(expected, actual);
     }
+
     @Test
     public void thirdTest() {
         FileParameters fileParameters = new FileParameters(false, false, false,
                 List.of("files\\fd", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
-        Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(stream,result);
+        Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
+        fileParameters.outputFile(stream, result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7764,567 KB\n" +
                 "Size of files\\direct\\papka 6686,131 KB\n";
         assertEquals(expected, actual);
     }
+
     @Test
     public void fourthTest() {
         FileParameters fileParameters = new FileParameters(false, false, true,
                 List.of("files\\fd", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
-        Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(stream,result);
+        Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
+        fileParameters.outputFile(stream, result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7950,917 KB\n" +
