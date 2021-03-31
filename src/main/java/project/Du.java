@@ -1,11 +1,12 @@
-package main.java;
+package project;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Du {
@@ -20,7 +21,7 @@ public class Du {
     private boolean basement;
 
     @Argument(required = true, usage = "Input file name")
-    private final List<String> inputFileName = new ArrayList<>();
+    private List<String> inputFileName = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -36,10 +37,12 @@ public class Du {
             return;
         }
 
-        FileParameters fileParameters = new FileParameters(humanSize,
+       FileParameters fileParameters = new FileParameters(humanSize,
                 allSize,
                 basement,
                 inputFileName);
-        fileParameters.sizeOfFiles(System.out);
+        Map<String, Double> preResult = fileParameters.sizeOfFiles();
+        Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
+        fileParameters.outputFile(System.out,result);
     }
 }

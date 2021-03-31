@@ -1,4 +1,4 @@
-package main.java;
+package project;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +18,8 @@ public class FileParameters {
     private final List<String> files;
     private double sum;
     private final String[] sizeS = {"B", "KB", "MB", "GB"};
-    private final Map<String, Pair<Double, String>> result = new LinkedHashMap<>();
-    private final Map<String, Double> preResult = new LinkedHashMap<>();
+
+
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;
@@ -28,7 +28,8 @@ public class FileParameters {
         this.files = files;
     }
 
-    public void sizeOfFiles(OutputStream outputStream) {
+    public Map<String, Double> sizeOfFiles() {
+        LinkedHashMap<String, Double> preSizes = new LinkedHashMap<>();
         double size;
         for (String element : files) {
 
@@ -36,33 +37,20 @@ public class FileParameters {
 
             if (!file.exists()) {
                 System.err.println("invalid file name/path or it doesn't exist");
-                return;
             }
             if (file.isDirectory()) size = FileUtils.sizeOfDirectory(file);
             else size = file.length();
 
             if (c) sum += size;
 
-            preResult.put(element, size);
+            preSizes.put(element, size);
         }
-        if (c) preResult.put("sum", sum);
-        humanView();
-
-        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
-            int counter = 1;
-            for (Map.Entry<String, Pair<Double, String>> entry : result.entrySet()) {
-                if (result.size() != counter || !c) outputStreamWriter.write("Size of " + entry.getKey() + " "
-                        + String.format("%.3f", entry.getValue().getFirst()) + " " + entry.getValue().getSecond() + "\n");
-                else outputStreamWriter.write("Sum of all " + String.format("%.3f", entry.getValue().getFirst())
-                        + " " + entry.getValue().getSecond());
-                counter++;
-            }
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
+        if (c) preSizes.put("sum", sum);
+        return  preSizes;
     }
 
-    public void humanView() {
+    public Map<String, Pair<Double, String>> humanView( Map<String, Double> preResult) {
+        Map<String, Pair<Double, String>> humanResult = new LinkedHashMap<>() ;
         double hu = si ? 1000 : 1024;
         for (Map.Entry<String, Double> entry : preResult.entrySet()) {
             int flag = 0;
@@ -72,8 +60,23 @@ public class FileParameters {
                 flag++;
                 if (!h) break;
             } while (changedSize > hu);
+            humanResult.put(entry.getKey(), new Pair<>(changedSize, sizeS[flag]));
+        }
+        return humanResult;
+    }
 
-            result.put(entry.getKey(), new Pair<>(changedSize, sizeS[flag]));
+    public void outputFile(OutputStream outputStream, Map<String, Pair<Double, String>> finalResult) {
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
+            int counter = 1;
+            for (Map.Entry<String, Pair<Double, String>> entry : finalResult.entrySet()) {
+                if (finalResult.size() != counter || !c) outputStreamWriter.write("Size of " + entry.getKey() + " "
+                        + String.format("%.3f", entry.getValue().getFirst()) + " " + entry.getValue().getSecond() + "\n");
+                else outputStreamWriter.write("Sum of all " + String.format("%.3f", entry.getValue().getFirst())
+                        + " " + entry.getValue().getSecond());
+                counter++;
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
