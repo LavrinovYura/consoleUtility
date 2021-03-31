@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 
 public class FileParameters {
@@ -18,8 +17,6 @@ public class FileParameters {
     private final List<String> files;
     private double sum;
     private final String[] sizeS = {"B", "KB", "MB", "GB"};
-
-
 
     public FileParameters(boolean h, boolean c, boolean si, List<String> files) {
         this.h = h;

@@ -4,6 +4,7 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +38,9 @@ public class Du {
             return;
         }
 
-       FileParameters fileParameters = new FileParameters(humanSize,
-                allSize,
-                basement,
-                inputFileName);
+        FileParameters fileParameters = new FileParameters(humanSize, allSize, basement, inputFileName);
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
-        Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(System.out,result);
+        Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
+        fileParameters.outputFile(System.out, result);
     }
 }

@@ -21,7 +21,7 @@ public class Tests {
                 List.of("files\\car", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
         Map<String, Pair<Double, String>> result = fileParameters.humanView(preResult);
-        fileParameters.outputFile(System.out,result);
+        fileParameters.outputFile(stream,result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\car 215,682 KB\n" +
                 "Size of files\\direct 7,583 MB\n" +
@@ -36,7 +36,7 @@ public class Tests {
                 List.of("files\\fd", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
         Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(System.out,result);
+        fileParameters.outputFile(stream,result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7764,567 KB\n" +
@@ -50,7 +50,7 @@ public class Tests {
                 List.of("files\\fd", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
         Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(System.out,result);
+        fileParameters.outputFile(stream,result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7764,567 KB\n" +
@@ -63,7 +63,7 @@ public class Tests {
                 List.of("files\\fd", "files\\direct", "files\\direct\\papka"));
         Map<String, Double> preResult = fileParameters.sizeOfFiles();
         Map<String, Pair<Double, String>>  result= fileParameters.humanView(preResult);
-        fileParameters.outputFile(System.out,result);
+        fileParameters.outputFile(stream,result);
         String actual = stream.toString(StandardCharsets.UTF_8);
         String expected = "Size of files\\fd 0,001 KB\n" +
                 "Size of files\\direct 7950,917 KB\n" +
